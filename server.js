@@ -1,5 +1,21 @@
 const express = require('express');
 const app = express();
+const dotenv = require('dotenv');
+
+// Load environment variables from the .env file
+dotenv.config();
+
+// Function to format a date as "YYYY-MM-DDTHH:mm:ssZ"
+function formatUTCDate(date) {
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, '0');
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+}
 
 // Define a route that handles GET requests to /api
 app.get('/api', (req, res) => {
@@ -13,11 +29,8 @@ app.get('/api', (req, res) => {
     const options = { weekday: 'long' };
     const currentDay = currentDate.toLocaleDateString('en-US', options);
 
-    // Get current UTC time with validation of +/-2 minutes
-    const now = new Date();
-    const utcOffset = now.getTimezoneOffset();
-    const adjustedTime = new Date(now.getTime() + (utcOffset + 2) * 60000);
-    const utc_time = adjustedTime.toISOString();
+    // Get current UTC time in the desired format
+    const utc_time = formatUTCDate(currentDate);
 
     // GitHub URLs based on query parameters
     const github_file_url = `https://github.com/hokageCodes/HNX-Backend/blob/main/${track}/server.js`;
@@ -48,8 +61,8 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
 });
 
-// Start the server on port 5000
-const PORT = process.env.PORT || 5000;
+// Start the server on your actual deployment URL
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on ${process.env.DEPLOYMENT_URL || 'http://localhost:3000'}`);
 });
