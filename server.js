@@ -21,7 +21,7 @@ function formatUTCDate(date) {
 app.get('/api', (req, res) => {
   try {
     // Get query parameters
-    const slack_name = req.query.slack_name || 'hokageCodes';
+    const slack_name = req.query.slack_name || 'example_name';
     const track = req.query.track || 'backend';
 
     // Get current day of the week
