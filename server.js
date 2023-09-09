@@ -33,8 +33,8 @@ app.get('/api', (req, res) => {
     const utc_time = formatUTCDate(currentDate);
 
     // GitHub URLs based on query parameters
-    const github_file_url = `https://github.com/hokageCodes/HNX-Backend/blob/main/${track}/server.js`;
-    const github_repo_url = `https://github.com/hokageCodes/HNX-Backend/tree/main/${track}`;
+    const github_file_url = `https://github.com/hokageCodes/Task-one/blob/main/${track}/server.js`;
+    const github_repo_url = `https://github.com/hokageCodes/Task-one${track}`;
 
     // Prepare the response object
     const response = {
